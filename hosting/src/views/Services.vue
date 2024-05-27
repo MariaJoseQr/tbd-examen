@@ -1,0 +1,38 @@
+<template>
+  <v-container class="my-4">
+    <div>
+      <h1>Services</h1>
+      <p>{{ message }}</p>
+    </div>
+  </v-container>
+</template>
+
+<script>
+import Navbar from "../components/Navbar.vue";
+import Footer from "../components/Footer.vue";
+import axios from "../axios";
+
+export default {
+  name: "Services",
+  components: {
+    Navbar,
+    Footer,
+  },
+  data() {
+    return {
+      message: "",
+    };
+  },
+  created() {
+    const param = this.$route.params.param || "";
+    axios
+      .get(`/services/${param}`)
+      .then((response) => {
+        this.message = response.data;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  },
+};
+</script>
