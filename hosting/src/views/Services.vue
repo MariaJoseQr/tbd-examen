@@ -2,7 +2,7 @@
   <v-container class="my-4">
     <div>
       <h1>Services</h1>
-      <p>{{ message }}</p>
+      <p>Bienvenido a la página de Servicios!</p>
     </div>
   </v-container>
 </template>
