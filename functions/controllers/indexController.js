@@ -19,11 +19,7 @@ const projects = (req, res) => {
 };
 
 const clients = (req, res) => {
-  const { param } = req.params;
-
-  if (!param || /^[a-zA-Z]+$/.test(param))
-    res.send(`Clients page with param: ${param}`);
-  else res.status(400).send("Invalid parameter");
+  res.send("Clients page");
 };
 
 const blog = (req, res) => {
