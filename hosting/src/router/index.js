@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Services from "../views/Services.vue";
 import Projects from "../views/Projects.vue";
-import Clients from "../views/Clients.vue";
+import Clients from "../views/clients/Clients.vue";
+import RegisterClient from "../views/clients/options/Register.vue";
 import Blog from "../views/Blog.vue";
 import Contact from "../views/Contact.vue";
 
@@ -49,6 +50,11 @@ const routes = [
         next(false);
       }
     },
+  },
+  {
+    path: "/clients/register",
+    name: "RegisterClient",
+    component: RegisterClient,
   },
   {
     path: "/blog/:param?",
