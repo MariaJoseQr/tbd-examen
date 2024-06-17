@@ -5,19 +5,23 @@ const db = mongoose.connection.useDb("empresa");
 
 const ClientScheme = new Schema(
   {
-    _id: { type: mongoose.Types.ObjectId },
     name: {
       type: String,
+      required: true,
     },
     last_name: {
       type: String,
+      required: true,
     },
     document_number: {
       type: String,
       required: true,
     },
   },
-  { collection: "client" }
+  {
+    collection: "client",
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+  }
 );
 
 const Client = db.model("ClientScheme", ClientScheme);

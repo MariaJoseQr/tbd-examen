@@ -3,6 +3,7 @@ const controller = require("../controllers/client");
 
 const router = express.Router();
 
-router.get(`/`, controller.getData);
+router.get(`/`, controller.get);
+router.post("/", controller.post);
 
 module.exports = router;

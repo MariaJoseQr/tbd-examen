@@ -6,9 +6,19 @@
         <p>Bienvenido a la página de Clientes!</p>
         <v-divider class="my-4"></v-divider>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="10">
         <span>A continuación se listan los clientes registrados:</span>
       </v-col>
+      <v-col cols="2" class="d-flex justify-end">
+        <v-btn
+          :to="{ name: 'RegisterClient' }"
+          color="#ffc832"
+          prepend-icon="mdi-plus"
+        >
+          Agregar
+        </v-btn>
+      </v-col>
+
       <v-col v-if="clients.length !== 0" cols="12">
         <v-data-table
           :headers="headers"
@@ -33,8 +43,9 @@ export default {
       message: "",
       clients: [],
       headers: [
-        { title: "Nombre", align: "start", key: "name" },
-        { title: "Apellido", align: "end", key: "last_name" },
+        { title: "Nombre", align: "center", key: "name" },
+        { title: "Apellido", align: "center", key: "last_name" },
+        { title: "DNI", align: "center", key: "document_number" },
       ],
     };
   },
@@ -57,7 +68,7 @@ export default {
 
 <style>
 .header-background {
-  background-color: #e57373;
+  background-color: #69b199;
   color: white;
 }
 </style>
