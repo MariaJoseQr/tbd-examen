@@ -12,6 +12,7 @@ const customTheme = {
   colors: {
     primary: "#00695c",
     secondary: "#FFC832",
+    critical: "#E53935",
   },
 };
 
