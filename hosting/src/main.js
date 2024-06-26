@@ -7,11 +7,25 @@ import App from "./App.vue";
 import router from "./router";
 import "@mdi/font/css/materialdesignicons.css";
 
+const customTheme = {
+  dark: false,
+  colors: {
+    primary: "#00695c",
+    secondary: "#FFC832",
+  },
+};
+
 const vuetify = createVuetify({
   components,
   directives,
   icons: {
     defaultSet: "mdi",
+  },
+  theme: {
+    defaultTheme: "customTheme",
+    themes: {
+      customTheme,
+    },
   },
 });
 

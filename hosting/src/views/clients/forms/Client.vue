@@ -42,6 +42,10 @@ import axios from "axios";
 export default {
   name: "ClientForm",
   props: {
+    clientSelected: {
+      type: Object,
+      default: () => ({}),
+    },
     action: {
       type: String,
       default: "create",
@@ -55,6 +59,13 @@ export default {
       requiredRules: [(v) => !!v || "Este campo es obligatorio"],
     };
   },
+  created() {
+    if (this.action === "update" && this.clientSelected) {
+      this.name = this.clientSelected.name;
+      this.lastName = this.clientSelected.last_name;
+      this.documentNumber = this.clientSelected.document_number;
+    }
+  },
   methods: {
     async onSave() {
       try {
@@ -66,7 +77,8 @@ export default {
           document_number: this.documentNumber,
         };
 
-        await this.saveClient(data);
+        if (this.action === "create") await this.saveClient(data);
+        else await this.updateClient({ id: this.clientSelected._id, data });
 
         this.$router.replace({ name: "Clients" });
       } catch (error) {
@@ -80,6 +92,19 @@ export default {
           data
         );
 
+        return response.data;
+      } catch (error) {
+        throw new Error(
+          error.response ? error.response.data.message : error.message
+        );
+      }
+    },
+    async updateClient({ id, data }) {
+      try {
+        const response = await axios.patch(
+          `http://localhost:3000/clients/${id}`,
+          data
+        );
         return response.data;
       } catch (error) {
         throw new Error(

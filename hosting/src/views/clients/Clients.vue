@@ -12,7 +12,7 @@
       <v-col cols="2" class="d-flex justify-end">
         <v-btn
           :to="{ name: 'RegisterClient' }"
-          color="#ffc832"
+          color="secondary"
           prepend-icon="mdi-plus"
         >
           Agregar
@@ -28,7 +28,25 @@
           :header-props="{
             class: 'header-background',
           }"
-        ></v-data-table>
+        >
+          <template #item.actions="{ item }">
+            <div>
+              <v-tooltip>
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    :to="{ name: 'EditClient', params: { id: item._id } }"
+                    v-bind="props"
+                    icon
+                    class="no-bg"
+                  >
+                    <v-icon icon="mdi-pencil" />
+                  </v-btn>
+                </template>
+                <span>Editar cliente</span>
+              </v-tooltip>
+            </div>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -46,6 +64,7 @@ export default {
         { title: "Nombre", align: "center", key: "name" },
         { title: "Apellido", align: "center", key: "last_name" },
         { title: "DNI", align: "center", key: "document_number" },
+        { title: "Acción", align: "end", key: "actions" },
       ],
     };
   },
@@ -68,7 +87,21 @@ export default {
 
 <style>
 .header-background {
-  background-color: #69b199;
+  background-color: #00b297;
   color: white;
+}
+.no-bg {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.no-bg:hover {
+  background-color: transparent !important;
+}
+.no-bg:focus {
+  background-color: transparent !important;
+}
+.no-bg:active {
+  background-color: transparent !important;
 }
 </style>

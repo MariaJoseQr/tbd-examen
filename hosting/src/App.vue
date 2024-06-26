@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="teal-darken-3">
+    <v-app-bar color="primary">
       <v-btn
         :to="{ name: 'Home' }"
         color="white"
