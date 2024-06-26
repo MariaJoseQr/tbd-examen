@@ -44,24 +44,49 @@
                 </template>
                 <span>Editar cliente</span>
               </v-tooltip>
+              <v-tooltip>
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    icon
+                    class="no-bg"
+                    @click="onOpenModalDelete(item)"
+                    ><v-icon color="critical">mdi-delete-outline</v-icon></v-btn
+                  >
+                </template>
+                <span>Eliminar cliente</span>
+              </v-tooltip>
             </div>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
   </v-container>
+
+  <DeleteClientModal
+    v-if="dialogDeleteClient"
+    :dialog="dialogDeleteClient"
+    @update:dialog="dialogDeleteClient = $event"
+    @clientDeleted="onClientDeleted"
+    :client="client"
+  />
 </template>
 
 <script>
 import axios from "axios";
+import DeleteClientModal from "@/views/clients/modals/Delete.vue";
+
 export default {
   name: "Clients",
+  components: { DeleteClientModal },
   data() {
     return {
       message: "",
       clients: [],
+      client: {},
+      dialogDeleteClient: false,
       headers: [
-        { title: "Nombre", align: "center", key: "name" },
+        { title: "Nombre", align: "start", key: "name" },
         { title: "Apellido", align: "center", key: "last_name" },
         { title: "DNI", align: "center", key: "document_number" },
         { title: "Acción", align: "end", key: "actions" },
@@ -78,8 +103,11 @@ export default {
     fetchClients() {
       axios.get("http://localhost:3000/clients/").then((response) => {
         this.clients = response.data.docs;
-        console.log("clients: ", clients);
       });
+    },
+    onOpenModalDelete(client) {
+      this.client = client;
+      this.dialogDeleteClient = true;
     },
   },
 };

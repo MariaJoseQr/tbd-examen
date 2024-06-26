@@ -61,3 +61,21 @@ exports.patch = async (req, res) => {
     res.status(500).json({ error: "Hubo un error al actualizar el cliente" });
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedClient = await Client.findByIdAndDelete(id);
+
+    if (!deletedClient) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.status(200).json({ message: "Client deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting client: ", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while deleting the client" });
+  }
+};
