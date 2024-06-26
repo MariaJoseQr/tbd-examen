@@ -4,6 +4,7 @@ import Services from "../views/Services.vue";
 import Projects from "../views/Projects.vue";
 import Clients from "../views/clients/Clients.vue";
 import RegisterClient from "../views/clients/options/Register.vue";
+import EditClient from "../views/clients/options/Edit.vue";
 import Blog from "../views/Blog.vue";
 import Contact from "../views/Contact.vue";
 
@@ -50,6 +51,11 @@ const routes = [
         next(false);
       }
     },
+  },
+  {
+    path: "/clients/edit/:id",
+    name: "EditClient",
+    component: EditClient,
   },
   {
     path: "/clients/register",
