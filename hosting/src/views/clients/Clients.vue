@@ -109,6 +109,11 @@ export default {
       this.client = client;
       this.dialogDeleteClient = true;
     },
+    onClientDeleted(deletedClientId) {
+      this.clients = this.clients.filter(
+        (client) => client._id !== deletedClientId
+      );
+    },
   },
 };
 </script>
