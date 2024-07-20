@@ -13,6 +13,7 @@ const customTheme = {
     primary: "#00695c",
     secondary: "#FFC832",
     critical: "#E53935",
+    success: "#43A047",
   },
 };
 

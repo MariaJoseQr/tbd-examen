@@ -8,14 +8,12 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 import axios from "../axios";
 
 export default {
   name: "Services",
   components: {
-    Navbar,
     Footer,
   },
   data() {
