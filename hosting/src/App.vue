@@ -52,6 +52,28 @@
       >
         Contacto
       </v-btn>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        v-if="user"
+        color="white"
+        density="default"
+        class="mr-2"
+        @click="logout"
+      >
+        Cerrar sesión
+      </v-btn>
+
+      <v-btn
+        v-else
+        :to="{ name: 'Login' }"
+        color="white"
+        density="default"
+        class="mr-2"
+      >
+        Iniciar sesión
+      </v-btn>
     </v-app-bar>
     <v-main class="content-container">
       <router-view />
@@ -61,16 +83,27 @@
 </template>
 
 <script>
+import { useAuthStore } from "@/stores/auth";
 import Footer from "./components/Footer.vue";
+import { computed } from "vue";
 
 export default {
   name: "App",
   components: {
     Footer,
   },
+  setup() {
+    const authStore = useAuthStore();
+    const user = computed(() => authStore.user);
+
+    const logout = () => {
+      authStore.logout();
+    };
+
+    return {
+      user,
+      logout,
+    };
+  },
 };
 </script>
-
-<style>
-/* Tus estilos aquí */
-</style>

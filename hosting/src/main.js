@@ -5,6 +5,8 @@ import * as directives from "vuetify/directives";
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import { createPinia } from "pinia";
+import "./plugins/firebase";
 import "@mdi/font/css/materialdesignicons.css";
 
 const customTheme = {
@@ -31,4 +33,6 @@ const vuetify = createVuetify({
   },
 });
 
-createApp(App).use(router).use(vuetify).mount("#app");
+const pinia = createPinia();
+
+createApp(App).use(router).use(vuetify).use(pinia).mount("#app");
