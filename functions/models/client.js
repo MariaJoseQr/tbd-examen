@@ -17,6 +17,7 @@ const ClientScheme = new Schema(
       type: String,
       required: true,
     },
+    image: { type: String },
   },
   {
     collection: "client",
