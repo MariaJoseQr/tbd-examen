@@ -1,10 +1,10 @@
 <template>
-  <v-form ref="formClient" lazy-validation>
+  <v-form ref="formClient">
     <v-row class="pa-10 pb-0">
       <v-col cols="6" class="pl-0">
         <v-text-field
           v-model="name"
-          :rules="requiredRules"
+          :rules="[(v) => !!v || 'El nombre es obligatorio']"
           label="Nombre"
           placeholder=" "
           variant="outlined"
@@ -13,7 +13,7 @@
       <v-col cols="6" class="pr-0">
         <v-text-field
           v-model="lastName"
-          :rules="requiredRules"
+          :rules="[(v) => !!v || 'El apellido es obligatorio']"
           label="Apellido"
           placeholder=" "
           variant="outlined"
@@ -22,11 +22,49 @@
       <v-col cols="12" class="px-0">
         <v-text-field
           v-model="documentNumber"
-          :rules="requiredRules"
+          :rules="[(v) => !!v || 'El DNI es obligatorio']"
           label="DNI"
           placeholder=" "
           variant="outlined"
         ></v-text-field>
+      </v-col>
+
+      <v-col cols="12">
+        <v-row>
+          <v-col v-if="imageUrl" cols="12" class="pb-0">
+            <v-img :src="imageUrl"></v-img>
+          </v-col>
+          <v-col v-else>No se subió una imagen para este cliente.</v-col>
+          <v-col cols="12" class="pb-0 mt-5">
+            <v-file-input
+              v-show="false"
+              accept="image/png, image/jpeg, image/bmp"
+              v-model="image"
+              ref="file"
+              label="File input"
+              @change="uploadFile"
+            ></v-file-input>
+
+            <v-btn block color="grey-lighten-4" class="mb-3" @click="loadImage">
+              <v-icon class="mr-1" size="medium">mdi mdi-camera</v-icon>
+              <span v-if="(action == 'create' && !imageUrl) || !imageUrl"
+                >Cargar imagen</span
+              >
+              <span v-else>Cambiar imagen</span>
+            </v-btn>
+
+            <v-btn
+              block
+              color="critical"
+              class="mb-3"
+              @click="deleteImage"
+              :disabled="imageUrl == ''"
+            >
+              <v-icon class="mr-1" size="medium">mdi mdi-delete</v-icon>
+              <span>Eliminar imagen</span>
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-row class="pr-10 pb-10">
@@ -38,6 +76,12 @@
 </template>
 <script>
 import axios from "axios";
+import { storage } from "../../../plugins/firebase.js";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 export default {
   name: "ClientForm",
@@ -56,7 +100,9 @@ export default {
       name: "",
       lastName: "",
       documentNumber: "",
-      requiredRules: [(v) => !!v || "Este campo es obligatorio"],
+      image: null,
+      imageUrl: "",
+      file: null,
     };
   },
   created() {
@@ -64,17 +110,21 @@ export default {
       this.name = this.clientSelected.name;
       this.lastName = this.clientSelected.last_name;
       this.documentNumber = this.clientSelected.document_number;
+      this.imageUrl = this.clientSelected.image;
     }
   },
   methods: {
     async onSave() {
       try {
-        if (!this.$refs.formClient.validate()) return;
+        if (!(await this.$refs.formClient.validate())) return;
+
+        if (this.image) await this.uploadFile(this.image);
 
         const data = {
           name: this.name,
           last_name: this.lastName,
           document_number: this.documentNumber,
+          image: this.imageUrl,
         };
 
         if (this.action === "create") await this.saveClient(data);
@@ -111,6 +161,35 @@ export default {
           error.response ? error.response.data.message : error.message
         );
       }
+    },
+    loadImage() {
+      if (this.$refs.file) {
+        this.$refs.file.$el.querySelector("input").click();
+      }
+    },
+    deleteImage() {
+      this.imageUrl = "";
+    },
+    async uploadFile(file) {
+      try {
+        if (file && file instanceof File) {
+          const fileRef = storageRef(storage, `images/${file.name}`);
+          await uploadBytes(fileRef, file);
+          this.imageUrl = await getDownloadURL(fileRef);
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    },
+    handleFileChange(file) {
+      if (file && file instanceof File) {
+        this.imageUrl = URL.createObjectURL(file);
+      }
+    },
+  },
+  watch: {
+    image(newImage) {
+      this.handleFileChange(newImage);
     },
   },
 };
