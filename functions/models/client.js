@@ -1,23 +1,15 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const db = mongoose.connection.useDb("empresa");
+const db = mongoose.connection.useDb("examen-final");
 
 const ClientScheme = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    last_name: {
-      type: String,
-      required: true,
-    },
-    document_number: {
-      type: String,
-      required: true,
-    },
-    image: { type: String },
+    name: { type: String },
+    last_name: { type: String },
+    email: { type: String },
+    address: { type: String },
+    phone: { type: String },
   },
   {
     collection: "client",

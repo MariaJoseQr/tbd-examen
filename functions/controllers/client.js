@@ -30,9 +30,9 @@ exports.get = async (req, res) => {
 
 exports.post = async (req, res) => {
   try {
-    const { name, last_name, document_number, image } = req.body;
+    const { name, last_name, email, address, phone } = req.body;
 
-    const newClient = new Client({ name, last_name, document_number, image });
+    const newClient = new Client({ name, last_name, email, address, phone });
     const savedClient = await newClient.save();
 
     res.status(201).json(savedClient);

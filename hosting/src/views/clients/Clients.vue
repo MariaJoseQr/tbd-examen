@@ -88,7 +88,9 @@ export default {
       headers: [
         { title: "Nombre", align: "start", key: "name" },
         { title: "Apellido", align: "center", key: "last_name" },
-        { title: "DNI", align: "center", key: "document_number" },
+        { title: "Correo", align: "center", key: "email" },
+        { title: "Dirección", align: "center", key: "address" },
+        { title: "Teléfono", align: "center", key: "phone" },
         { title: "Acción", align: "end", key: "actions" },
       ],
     };
